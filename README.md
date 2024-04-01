@@ -1,18 +1,31 @@
-# sql-challenge
-UCB Challenge #9
 
-Create the tables: I simply created the tables based on the column headers of each csv files. 
+# UCB Challenge #9 Summary
 
-Determine Keys:
+## Table Creation
+- Tables were created based on the column headers from each CSV file.
 
-departments table: dept_no and dept_name are both unique but dept_no seems like the common columns for multiple tables. So it is set up as the PK for this table.
+## Key Determination
+- **departments**: `dept_no` is set as the Primary Key (PK).
+- **dept_emp**: A composite key of `emp_no` and `dept_no` is set as the PK.
+- **dept_manager**: A composite key is needed as the PK, with foreign keys (FK) for `dept_no` and `emp_no`.
+- **employees**: `emp_no` is unique and is set as the PK. `emp_title_id` is set as a FK.
+- **salaries**: `emp_no` is set as the PK after verifying no duplicates.
+- **titles**: `title_id` is set as the PK with no duplicates found.
 
-dept_emp table: There are records of the same emp_no is with different dept_no, which means the same employee can work for multiple departments. So we need assign the combination of emp_no and dept_no as PK. 
+## Diagramming
+- Utilized Lucidchart to create the ER diagram per the tutor Hassan's recommendation. A PNG format is also saved in the repo.
+- Diagram URL: [Lucidchart ERD](https://lucid.app/lucidchart/346d0d16-2fad-4fe9-b189-7a41b01cf612/edit?viewport_loc=-477%2C1054%2C2218%2C1045%2C0_0&invitationId=inv_0fc68ef1-c50c-4c51-b097-ed08d59af768)
 
-dept_manager table: There are instances where multiple emp_no to the same dept_no and one emp_no to multiple dept_no, a composite key is needed as PK. To ensure that every dept_no in the table corresponds to an existing department in the departments table, a foreign key of dep_no is created; similarly, to ensure that every emp_no corresponds to an existing employee in the employees table, a foreign key of emp_no is added.
+## Data Analysis
+- Analysis performed mainly using SQL `JOIN` clauses.
+- Found the use of subqueries challenging when it involves three or more tables.
 
-employees table: emp_no is unique, so it is set as the PK for this table. I also set up emp_title _id as FK to ensure every emp_no has a title exist in titles table.
+1. **Simple Join**: Selected employees and their salaries by joining the relevant tables on `emp_no`.
+2. **Year Extraction**: Applied a `WHERE` condition to filter records by year extracted from a `TIMESTAMP` data type.
+3. **Department Managers**: Identified managers by joining `departments`, `dept_manager`, and `employees`.
+4. **Department Employees**: Connected `dept_emp` with `departments` and `employees` to list employees in departments.
+5. **Wildcard Search**: Used a `WHERE` condition with the `LIKE` operator for pattern matching.
+6. **SALES Department Employees**: Used `dept_emp` to connect with `departments` and `employees`. Used a `WHERE` condition to find employees in this department.
+7. **Extended Wildcard Search**: Built upon the previous query by adding an extra column and an `OR` condition.
+8. **Aggregate and Sort**: Implemented `COUNT` with `GROUP BY` and `ORDER BY DESC` to sort last names by frequency.
 
-salaries: First checked if there are emp_no duplicates just in case there are multiple salary record for some employees. It didn't return any duplicate which means the table is only tracking the current salary. Then I set emp_no as PK.
-
-titles: Set up title_id as primary key after checking there is no duplicate of title_id
